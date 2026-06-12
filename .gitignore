@@ -1,0 +1,19 @@
+# Binaries
+bin/
+*.exe
+
+# Environment — never commit real secrets
+.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Go test cache
+*.test
+*.out
+
+# OS
+.DS_Store
+Thumbs.db
