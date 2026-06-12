@@ -71,10 +71,7 @@ DATABASE_URL=postgres://postgres:yourpassword@localhost:5432/anyx_db?sslmode=dis
 ENVIRONMENT=development
 ```
 
-> ⚠️ **Human action required**: Create a PostgreSQL database named `anyx_db` first:
-> ```sql
-> CREATE DATABASE anyx_db;
-> ```
+
 
 ### Step 2 — Run database migrations
 
@@ -102,7 +99,7 @@ The API is now available at `http://localhost:3000`.
 
 ## Option B: Run with Docker Compose
 
-> ⚠️ **Human action required**: Make sure Docker Desktop is running.
+
 
 ```bash
 # Build and start both PostgreSQL and the API
@@ -244,15 +241,3 @@ Every response includes:
 
 ---
 
-## Human Interaction Checklist
-
-Before running the project for the first time, you need to:
-
-- [ ] Install Go 1.22+ and add it to PATH
-- [ ] Install `golang-migrate` CLI
-- [ ] Install `sqlc` CLI
-- [ ] Create a PostgreSQL database (`anyx_db`)
-- [ ] Copy `.env.example` → `.env` and fill in `DATABASE_URL`
-- [ ] Run `make migrate-up` to create the `users` table
-- [ ] Run `make tidy` to download dependencies
-- [ ] Run `make run` to start the server
