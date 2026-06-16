@@ -37,6 +37,11 @@ func (h *UserHandler) CreateUser(c *fiber.Ctx) error {
 
 	user, err := h.svc.CreateUser(c.Context(), req)
 	if err != nil {
+		if errors.Is(err, models.ErrFutureDob) {
+			return c.Status(fiber.StatusBadRequest).JSON(models.ErrorResponse{
+				Error: "date of birth cannot be in the future",
+			})
+		}
 		return c.Status(fiber.StatusInternalServerError).JSON(models.ErrorResponse{
 			Error: "failed to create user",
 		})
@@ -91,6 +96,11 @@ func (h *UserHandler) UpdateUser(c *fiber.Ctx) error {
 
 	user, err := h.svc.UpdateUser(c.Context(), int32(id), req)
 	if err != nil {
+		if errors.Is(err, models.ErrFutureDob) {
+			return c.Status(fiber.StatusBadRequest).JSON(models.ErrorResponse{
+				Error: "date of birth cannot be in the future",
+			})
+		}
 		if errors.Is(err, pgx.ErrNoRows) {
 			return c.Status(fiber.StatusNotFound).JSON(models.ErrorResponse{
 				Error: "user not found",

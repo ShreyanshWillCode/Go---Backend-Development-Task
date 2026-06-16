@@ -60,7 +60,9 @@ func main() {
 	userHandler := handler.NewUserHandler(userSvc)
 
 	app := fiber.New(fiber.Config{
-
+		ReadTimeout:  5 * time.Second,
+		WriteTimeout: 10 * time.Second,
+		IdleTimeout:  15 * time.Second,
 		ErrorHandler: func(c *fiber.Ctx, err error) error {
 			code := fiber.StatusInternalServerError
 			var e *fiber.Error

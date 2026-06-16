@@ -1,6 +1,9 @@
 package models
 
-import "time"
+import (
+	"errors"
+	"time"
+)
 
 type CreateUserRequest struct {
 	Name	string	`json:"name" validate:"required,min=1,max=255"`
@@ -40,10 +43,24 @@ type ErrorResponse struct {
 	Error string `json:"error"`
 }
 
+// ── Shared Helpers ─────────────────────────────────────────────────────────────
+
+var ErrFutureDob = errors.New("date of birth cannot be in the future")
+
 const (
+	// DateLayout is the canonical date format used throughout the API.
+	// It matches Go's reference time layout for "YYYY-MM-DD".
 	DateLayout = "2006-01-02"
 )
 
+// ParseDob parses a "YYYY-MM-DD" string into a time.Time value (UTC midnight).
 func ParseDob(raw string) (time.Time, error) {
-	return time.Parse(DateLayout, raw)
+	t, err := time.Parse(DateLayout, raw)
+	if err != nil {
+		return time.Time{}, err
+	}
+	if t.After(time.Now()) {
+		return time.Time{}, ErrFutureDob
+	}
+	return t, nil
 }
